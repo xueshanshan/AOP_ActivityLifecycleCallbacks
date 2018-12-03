@@ -1,15 +1,22 @@
-package com.star.aop_activitylifecyclecallbacks.aspect;
+package com.star.aop_activitylifecyclecallbacks.aspects;
 
 import android.os.Handler;
 import android.util.Log;
 
+import com.star.aop_activitylifecyclecallbacks.BuildConfig;
 import com.star.aop_activitylifecyclecallbacks.annotations.ActivityLifeCycle;
 import com.star.aop_activitylifecyclecallbacks.annotations.LifeCycleMethod;
+import com.star.aop_activitylifecyclecallbacks.listeners.OnAppVisibleListener;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+
+import java.lang.ref.WeakReference;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * @author xueshanshan
@@ -18,7 +25,7 @@ import org.aspectj.lang.annotation.Pointcut;
 @Aspect
 public class ActivityAnnotationAspect {
     private static final String TAG = ActivityAnnotationAspect.class.getSimpleName();
-    private boolean foreground = false;
+    private static boolean foreground = false;
     private boolean paused = true;
     private Handler handler = new Handler();
     private static final long CHECK_DELAY = 500L;
@@ -35,6 +42,8 @@ public class ActivityAnnotationAspect {
         }
     };
 
+    private static Set<WeakReference<OnAppVisibleListener>> mOnAppVisibleListeners = new HashSet<>();
+
     @Pointcut("execution(@*..ActivityLifeCycle * *(..)) && @annotation(activityLifeCycle)")
     public void activitylifeCycle(ActivityLifeCycle activityLifeCycle) {}
 
@@ -44,7 +53,7 @@ public class ActivityAnnotationAspect {
         String methodName = joinPoint.getSignature().getName();
         Class<?> aClass = joinPoint.getThis().getClass();
         String className = aClass.getSimpleName();
-        Log.e(TAG, "after " + className + "->" + methodName);
+        logD("after " + className + "->" + methodName);
         switch (methodName) {
             case LifeCycleMethod.LIFECYCLE_METHOD_ON_CREATE:
                 break;
@@ -72,9 +81,49 @@ public class ActivityAnnotationAspect {
 
     private void notifyStatusChanged(boolean foreground) {
         if (foreground) {
-            Log.d(TAG, "app become foreground");
+            logD("app become foreground");
         } else {
-            Log.d(TAG, "app become background");
+            logD("app become background");
         }
+        Iterator<WeakReference<OnAppVisibleListener>> iterator = mOnAppVisibleListeners.iterator();
+        while (iterator.hasNext()) {
+            WeakReference<OnAppVisibleListener> next = iterator.next();
+            if (next.get() != null) {
+                if (foreground) {
+                    next.get().becomeForeground();
+                } else {
+                    next.get().becomeBackground();
+                }
+            }
+        }
+    }
+
+    public static void registerAppVisiableChangedListener(OnAppVisibleListener onAppVisibleListener) {
+        mOnAppVisibleListeners.add(new WeakReference<OnAppVisibleListener>(onAppVisibleListener));
+    }
+
+    public static void unregisterAppVisiableChangedListener(OnAppVisibleListener onAppVisibleListener) {
+        Iterator<WeakReference<OnAppVisibleListener>> iterator = mOnAppVisibleListeners.iterator();
+        while (iterator.hasNext()) {
+            WeakReference<OnAppVisibleListener> next = iterator.next();
+            if (next.get() != null && next.get() == onAppVisibleListener) {
+                mOnAppVisibleListeners.remove(next);
+                break;
+            }
+        }
+    }
+
+    private void logD(String message) {
+        if (BuildConfig.DEBUG) {
+            Log.d(TAG, message);
+        }
+    }
+
+    public static boolean isForeground() {
+        return foreground;
+    }
+
+    public static boolean isBackground() {
+        return !foreground;
     }
 }
