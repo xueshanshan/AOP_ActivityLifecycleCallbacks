@@ -1,0 +1,31 @@
+apply plugin: 'groovy'  //使用groovy插件
+apply plugin: 'maven'  //要上传maven仓库，所以也要用maven插件
+
+repositories {
+    mavenCentral()
+    google()
+    jcenter()
+}
+
+dependencies {
+    //gradle sdk
+    compile gradleApi()
+    //groovy sdk
+    compile localGroovy()
+    // aspectjtools
+    compile 'org.aspectj:aspectjtools:1.8.10'
+    //gradle tools
+    compile 'com.android.tools.build:gradle:3.1.2'
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            //本地maven地址
+            repository(url: uri('../repo-aop-plugin'))
+            pom.groupId = 'com.star.plugin'
+            pom.artifactId = "aop-plugin"  //插件名
+            pom.version = '0.0.1'
+        }
+    }
+}

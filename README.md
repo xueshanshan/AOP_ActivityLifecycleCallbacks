@@ -55,4 +55,24 @@ LifecycleUtil.init(this);
 LifecycleUtil.get().registerAppVisiableChangedListener(this);
 ```
 
+#### 4、由于aop导入配置代码较多，所以本项目也写了aop的插件来配置aop的依赖，运用我的插件，会使得aop导入非常方便
+
+项目的build.gradle配置
+```gradle
+
+buildscript {
+    repositories {
+        maven { url uri('repo-aop-plugin') }
+    }
+    dependencies {
+        classpath 'com.star.plugin:aop-plugin:0.0.1'
+    }
+}
+```
+
+app或其他module配置
+```gradle
+apply plugin: 'aop-plugin'
+```
+
 

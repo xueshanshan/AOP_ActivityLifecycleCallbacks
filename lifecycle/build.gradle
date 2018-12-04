@@ -1,8 +1,5 @@
-import org.aspectj.bridge.IMessage
-import org.aspectj.bridge.MessageHandler
-import org.aspectj.tools.ajc.Main
-
 apply plugin: 'com.android.library'
+apply plugin: 'aop-plugin'
 
 android {
     compileSdkVersion 28
@@ -20,46 +17,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
-    libraryVariants.all { variant ->
-        JavaCompile javaCompile = variant.javaCompile
-        javaCompile.doLast {
-            String[] args = ["-showWeaveInfo",
-                             "-1.8",
-                             "-inpath", javaCompile.destinationDir.toString(),
-                             "-aspectpath", javaCompile.classpath.asPath,
-                             "-d", javaCompile.destinationDir.toString(),
-                             "-classpath", javaCompile.classpath.asPath,
-                             "-bootclasspath", project.android.bootClasspath.join(File.pathSeparator)]
-            logger.debug "ajc args: " + Arrays.toString(args)
-
-            MessageHandler handler = new MessageHandler(true);
-            new Main().run(args, handler);
-            for (IMessage message : handler.getMessages(null, true)) {
-                switch (message.getKind()) {
-                    case IMessage.ABORT:
-                    case IMessage.ERROR:
-                    case IMessage.FAIL:
-                        logger.error message.message, message.thrown
-                        break
-                    case IMessage.WARNING:
-                        logger.warn message.message, message.thrown
-                        break
-                    case IMessage.INFO:
-                        logger.info message.message, message.thrown
-                        break
-                    case IMessage.DEBUG:
-                        logger.debug message.message, message.thrown
-                        break
-                }
-            }
-        }
-    }
-
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'org.aspectj:aspectjrt:1.8.10'
 }
