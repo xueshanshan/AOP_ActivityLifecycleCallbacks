@@ -1,12 +1,12 @@
-package com.star.aop_activitylifecyclecallbacks.aspects;
+package com.star.aspect_lifecycle.aspects;
 
 import android.os.Handler;
 import android.util.Log;
 
-import com.star.aop_activitylifecyclecallbacks.BuildConfig;
-import com.star.aop_activitylifecyclecallbacks.annotations.ActivityLifeCycle;
-import com.star.aop_activitylifecyclecallbacks.annotations.LifeCycleMethod;
-import com.star.aop_activitylifecyclecallbacks.listeners.OnAppVisibleListener;
+import com.star.aspect_lifecycle.BuildConfig;
+import com.star.aspect_lifecycle.annotations.ActivityLifeCycle;
+import com.star.aspect_lifecycle.annotations.LifeCycleMethod;
+import com.star.aspect_lifecycle.listeners.OnAppVisibleListener;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;

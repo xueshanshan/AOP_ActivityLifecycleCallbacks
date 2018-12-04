@@ -1,4 +1,4 @@
-package com.star.aop_activitylifecyclecallbacks.utils;
+package com.star.aspect_lifecycle.utils;
 
 import android.app.Activity;
 import android.app.Application;
@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 
-import com.star.aop_activitylifecyclecallbacks.BuildConfig;
-import com.star.aop_activitylifecyclecallbacks.listeners.OnAppVisibleListener;
+import com.star.aspect_lifecycle.BuildConfig;
+import com.star.aspect_lifecycle.listeners.OnAppVisibleListener;
 
 import java.lang.ref.WeakReference;
 import java.util.HashSet;

@@ -3,9 +3,8 @@ package com.star.aop_activitylifecyclecallbacks;
 import android.app.Application;
 import android.util.Log;
 
-import com.star.aop_activitylifecyclecallbacks.aspects.ActivityAnnotationAspect;
-import com.star.aop_activitylifecyclecallbacks.listeners.OnAppVisibleListener;
-import com.star.aop_activitylifecyclecallbacks.utils.LifecycleUtil;
+import com.star.aspect_lifecycle.aspects.ActivityAnnotationAspect;
+import com.star.aspect_lifecycle.listeners.OnAppVisibleListener;
 
 /**
  * @author xueshanshan

@@ -1,4 +1,4 @@
-package com.star.aop_activitylifecyclecallbacks.annotations;
+package com.star.aspect_lifecycle.annotations;
 
 import android.support.annotation.StringDef;
 

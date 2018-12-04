@@ -1,11 +1,11 @@
-package com.star.aop_activitylifecyclecallbacks.activities;
+package com.star.aspect_lifecycle.activities;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import com.star.aop_activitylifecyclecallbacks.annotations.ActivityLifeCycle;
+import com.star.aspect_lifecycle.annotations.ActivityLifeCycle;
 
 public abstract class AOP_BaseActivity extends AppCompatActivity {
     protected Context mContext;

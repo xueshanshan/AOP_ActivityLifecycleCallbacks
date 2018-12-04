@@ -2,17 +2,18 @@ import org.aspectj.bridge.IMessage
 import org.aspectj.bridge.MessageHandler
 import org.aspectj.tools.ajc.Main
 
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 28
+
     defaultConfig {
-        applicationId "com.star.aop_activitylifecyclecallbacks"
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -20,7 +21,7 @@ android {
         }
     }
 
-    applicationVariants.all { variant ->
+    libraryVariants.all { variant ->
         JavaCompile javaCompile = variant.javaCompile
         javaCompile.doLast {
             String[] args = ["-showWeaveInfo",
@@ -54,10 +55,11 @@ android {
             }
         }
     }
+
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation project(":lifecycle")
+    implementation 'org.aspectj:aspectjrt:1.8.10'
 }

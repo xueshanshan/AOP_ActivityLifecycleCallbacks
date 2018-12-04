@@ -1,5 +1,7 @@
 package com.star.aop_activitylifecyclecallbacks.activities;
 
+import com.star.aspect_lifecycle.activities.AOP_BaseActivity;
+
 /**
  * @author xueshanshan
  * @date 2018/12/3
