@@ -1,5 +1,8 @@
 apply plugin: 'com.android.library'
 apply plugin: 'aop-plugin'
+aop {
+    enableLog = false
+}
 
 android {
     compileSdkVersion 28

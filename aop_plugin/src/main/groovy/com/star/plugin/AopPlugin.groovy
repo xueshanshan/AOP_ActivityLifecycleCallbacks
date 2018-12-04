@@ -12,6 +12,9 @@ class AopPlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
+
+        project.extensions.create("aop", AopExtension)
+
         def app = project.plugins.withType(AppPlugin)
         def variants
         if (app) {
@@ -26,6 +29,10 @@ class AopPlugin implements Plugin<Project> {
         }
 
         variants.all { variant ->
+            if (!project.aop.enable) {
+                return;
+            }
+            def enableLog = project.aop.enableLog
             JavaCompile javaCompile = variant.javaCompile
             javaCompile.doLast {
                 String[] args = ["-showWeaveInfo",
@@ -35,26 +42,42 @@ class AopPlugin implements Plugin<Project> {
                                  "-d", javaCompile.destinationDir.toString(),
                                  "-classpath", javaCompile.classpath.asPath,
                                  "-bootclasspath", project.android.bootClasspath.join(File.pathSeparator)]
-                logger.debug "ajc args: " + Arrays.toString(args)
+                if (enableLog) {
+                    logger.debug "ajc args: " + Arrays.toString(args)
 
-                MessageHandler handler = new MessageHandler(true);
-                new Main().run(args, handler);
-                for (IMessage message : handler.getMessages(null, true)) {
-                    switch (message.getKind()) {
-                        case IMessage.ABORT:
-                        case IMessage.ERROR:
-                        case IMessage.FAIL:
-                            logger.error message.message, message.thrown
-                            break
-                        case IMessage.WARNING:
-                            logger.warn message.message, message.thrown
-                            break
-                        case IMessage.INFO:
-                            logger.info message.message, message.thrown
-                            break
-                        case IMessage.DEBUG:
-                            logger.debug message.message, message.thrown
-                            break
+                    println()
+                    println("####################################################################")
+                    println("########                                                    ########")
+                    println("########                                                    ########")
+                    println("########           欢迎使用 aop-plugin® 编译插件            ########")
+                    println("########           使用过程中碰到任何问题请联系我           ########")
+                    println("########           邮箱：xueshanshan_star@163.com           ########")
+                    println("########                                                    ########")
+                    println("####################################################################")
+                    println()
+
+                }
+
+                MessageHandler handler = new MessageHandler(true)
+                new Main().run(args, handler)
+                if (enableLog) {
+                    for (IMessage message : handler.getMessages(null, true)) {
+                        switch (message.getKind()) {
+                            case IMessage.ABORT:
+                            case IMessage.ERROR:
+                            case IMessage.FAIL:
+                                logger.error message.message, message.thrown
+                                break
+                            case IMessage.WARNING:
+                                logger.warn message.message, message.thrown
+                                break
+                            case IMessage.INFO:
+                                logger.info message.message, message.thrown
+                                break
+                            case IMessage.DEBUG:
+                                logger.debug message.message, message.thrown
+                                break
+                        }
                     }
                 }
             }

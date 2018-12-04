@@ -73,6 +73,12 @@ buildscript {
 app或其他module配置
 ```gradle
 apply plugin: 'aop-plugin'
+
+//可配置项
+aop{
+    enable = true/false //是否使这个插件可用，默认为true
+    enableLog = true/false //是否打印编译过程的日志，默认为true
+}
 ```
 
 
