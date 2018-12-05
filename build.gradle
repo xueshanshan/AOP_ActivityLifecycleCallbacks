@@ -3,12 +3,14 @@
 buildscript {
 
     repositories {
-        maven { url uri('repo-aop-plugin') }
+//        maven { url uri('repo-aop-plugin') }
+        maven { url 'https://dl.bintray.com/xueshanshan/maven/' }
         google()
         jcenter()
     }
     dependencies {
         classpath 'com.star.plugin:aop-plugin:0.0.1'
+        classpath 'com.novoda:bintray-release:0.7.0'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

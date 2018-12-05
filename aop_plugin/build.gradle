@@ -1,5 +1,6 @@
 apply plugin: 'groovy'  //使用groovy插件
 apply plugin: 'maven'  //要上传maven仓库，所以也要用maven插件
+apply plugin: 'com.novoda.bintray-release'
 
 repositories {
     mavenCentral()
@@ -18,14 +19,28 @@ dependencies {
     compile 'com.android.tools.build:gradle:3.1.2'
 }
 
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            //本地maven地址
-            repository(url: uri('../repo-aop-plugin'))
-            pom.groupId = 'com.star.plugin'
-            pom.artifactId = "aop-plugin"  //插件名
-            pom.version = '0.0.1'
-        }
-    }
+//uploadArchives {
+//    repositories {
+//        mavenDeployer {
+//            //本地maven地址
+//            repository(url: uri('../repo-aop-plugin'))
+//            pom.groupId = 'com.star.plugin'
+//            pom.artifactId = "aop-plugin"  //插件名
+//            pom.version = '0.0.1'
+//        }
+//    }
+//}
+
+//./gradlew clean build bintrayUpload -PbintrayUser=**** -PbintrayKey=********** -PdryRun=false
+publish {
+    repoName = 'maven' //不写默认也是maven,可以指定为其他
+    userOrg = 'xueshanshan'//bintray.com你的用户名
+    groupId = 'com.star.plugin'//jcenter上的路径
+    artifactId = 'aop-plugin'//项目名称
+    publishVersion = '0.0.1'//版本号
+    desc = 'Aop plugin,简化Aop集成'//描述，不重要
+    website = 'https://github.com/xueshanshan'//网站，不重要；尽量模拟github上的地址，例如我这样的；当然你有地址最好了
+    bintrayUser = "${my_bintrayUser}"
+    bintrayKey = "${my_bintrayKey}"
+    dryRun = false
 }
