@@ -4,7 +4,7 @@ buildscript {
 
     repositories {
 //        maven { url uri('repo-aop-plugin') }
-        maven { url 'https://dl.bintray.com/xueshanshan/maven/' }
+//        maven { url 'https://dl.bintray.com/xueshanshan/maven/' }
         google()
         jcenter()
     }
