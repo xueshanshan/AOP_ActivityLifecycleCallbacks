@@ -63,7 +63,7 @@ LifecycleUtil.get().registerAppVisiableChangedListener(this);
 buildscript {
     repositories {
         //maven { url uri('repo-aop-plugin') }
-        jcenter() //该插件已上传是jcenter
+        jcenter() //该插件已上传至jcenter
     }
     dependencies {
         classpath 'com.star.plugin:aop-plugin:0.0.1'
@@ -77,8 +77,8 @@ apply plugin: 'aop-plugin'
 
 //可配置项
 aop{
-    enable = true/false //是否使这个插件可用，默认为true
-    enableLog = true/false //是否打印编译过程的日志，默认为true
+    enable = true/false  //是否使这个插件可用，默认为true
+    enableLog = true/false  //是否打印编译过程的日志，默认为true
 }
 ```
 
